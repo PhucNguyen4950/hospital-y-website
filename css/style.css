@@ -27,3 +27,5 @@ footer{background:var(--navy);color:#fff;padding:1.5rem 0;margin-top:2rem}footer
 body{padding-bottom:76px}.mbtn{display:none}
 @media(max-width:767px){.mbtn{display:inline-block}nav{display:none;width:100%;flex-direction:column}nav.open{display:flex}
 .sos{left:12px;right:12px;bottom:8px;width:auto}}
+#hdr{min-height:88px}@media(max-width:767px){#hdr{min-height:150px}}
+.logo img{display:block}
