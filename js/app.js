@@ -9,11 +9,12 @@ const page=document.body.dataset.p;
 function layout(){
  const L=[["index","Home"],["about","About"],["specialties","Specialties"],["doctors","Doctors"],["prices","Prices"],["news","News"],["contact","Contact"],["booking","Book"]];
  $("#hdr").innerHTML=`<a class="skip" href="#main">Skip to content</a><div class="wrap bar"><a class="logo" href="index.html"><img src="logo.svg" alt="Hospital Y" height="40"></a>
- <nav aria-label="Main">${L.map(([h,t])=>`<a href="${h}.html"${h===page?' aria-current="page"':""}>${t}</a>`).join("")}</nav>
+ <button class="btn o mbtn" id="mn" aria-expanded="false" aria-controls="nv">Menu</button><nav id="nv" aria-label="Main">${L.map(([h,t])=>`<a href="${h}.html"${h===page?' aria-current="page"':""}>${t}</a>`).join("")}</nav>
  <button class="btn o" id="fz" aria-label="Increase text size">A+</button><a class="btn t" href="login.html">Patient Login</a></div>`;
  $("#ftr").innerHTML=`<div class="wrap"><p><b>Hospital Y</b> &middot; 123 Example St., Ho Chi Minh City &middot; Hotline (028) 0000 0000 &middot; Emergency 115 &middot; Open 24/7</p>
  <p><a href="contact.html">Privacy policy</a> &middot; <a href="contact.html">Terms</a> &middot; <a href="contact.html">Accessibility</a> &middot; <a href="wireframes.html">Wireframes</a></p></div>`;
  document.body.insertAdjacentHTML("beforeend",'<a class="btn r sos" href="tel:115">&#9742; Emergency 115</a>');
+ $("#mn").onclick=()=>{const o=$("#nv").classList.toggle("open");$("#mn").setAttribute("aria-expanded",o)};
  let z=store.get("fz",112.5);document.documentElement.style.fontSize=z+"%";
  $("#fz").onclick=()=>{z=z>=150?112.5:z+12.5;document.documentElement.style.fontSize=z+"%";store.set("fz",z)};
 }
@@ -52,12 +53,12 @@ const R={
     else{fails++;e.textContent="Incorrect ID or password."}}
    else if($("#otp").value==="123456"){sessionStorage.setItem("u",id);location.href="portal.html"}
    else e.textContent="Incorrect code."}},
- portal(){if(!sessionStorage.getItem("u")){location.href="login.html";return}
-  const out=()=>{sessionStorage.clear();location.href="login.html"};$("#lo").onclick=out;
+ portal(){if(!sessionStorage.getItem("u")){location.replace("login.html");return}
+  addEventListener("pageshow",()=>{if(!sessionStorage.getItem("u"))location.replace("login.html")});
+  const out=()=>{sessionStorage.clear();location.replace("login.html")};$("#lo").onclick=out;
   const ap=[{code:"AP100001",spec:"Cardiology",doc:"Dr. Nguyen Van An",date:"2026-11-24",time:"09:00"},...store.get("bk",[])];
   $("#ap").innerHTML=ap.map(a=>`<tr><td>${a.code}</td><td>${esc(a.spec)}</td><td>${esc(a.doc)}</td><td>${a.date} ${a.time}</td></tr>`).join("");
   let idle=Date.now();["click","keydown","touchstart"].forEach(x=>addEventListener(x,()=>idle=Date.now()));
   setInterval(()=>{if(Date.now()-idle>9e5){alert("Session expired for your security.");out()}},3e4)}
 };
 layout();R[page]&&R[page]();
-
