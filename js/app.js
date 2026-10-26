@@ -8,7 +8,7 @@ const store={get:(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch
 const page=document.body.dataset.p;
 function layout(){
  const L=[["index","Home"],["about","About"],["specialties","Specialties"],["doctors","Doctors"],["prices","Prices"],["news","News"],["contact","Contact"],["booking","Book"]];
- $("#hdr").innerHTML=`<a class="skip" href="#main">Skip to content</a><div class="wrap bar"><a class="logo" href="index.html"><img src="logo.svg" alt="Hospital Y" height="40"></a>
+ $("#hdr").innerHTML=`<a class="skip" href="#main">Skip to content</a><div class="wrap bar"><a class="logo" href="index.html"><img src="logo.svg" alt="Hospital Y" width="147" height="40"></a>
  <button class="btn o mbtn" id="mn" aria-expanded="false" aria-controls="nv">Menu</button><nav id="nv" aria-label="Main">${L.map(([h,t])=>`<a href="${h}.html"${h===page?' aria-current="page"':""}>${t}</a>`).join("")}</nav>
  <button class="btn o" id="fz" aria-label="Increase text size">A+</button><a class="btn t" href="login.html">Patient Login</a></div>`;
  $("#ftr").innerHTML=`<div class="wrap"><p><b>Hospital Y</b> &middot; 123 Example St., Ho Chi Minh City &middot; Hotline (028) 0000 0000 &middot; Emergency 115 &middot; Open 24/7</p>
@@ -46,6 +46,7 @@ const R={
    store.set("bk",[...taken(),k]);e.textContent="";$("#bf").hidden=true;
    $("#done").hidden=false;$("#done").innerHTML=`<h2>Appointment confirmed</h2><p>Code <b>${k.code}</b>: ${esc(k.spec)} with ${esc(k.doc)} on ${k.date} at ${k.time}. A reminder will be sent to ${esc(k.phone)}.</p>`;$("#done").focus()}},
  login(){let step=1,fails=0,id="";const e=$("#e");
+  addEventListener("pageshow",ev=>{if(ev.persisted)location.reload()});
   $("#lf").onsubmit=ev=>{ev.preventDefault();e.textContent="";
    if(step===1){id=$("#id").value.trim().toUpperCase();
     if(fails>=5){e.textContent="Account temporarily locked. Try again in 15 minutes.";return}
